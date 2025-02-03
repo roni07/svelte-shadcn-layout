@@ -1,15 +1,15 @@
 <script>
 
     import {generatePagination} from "$lib/utils.js";
-    import {Content, Ellipsis, Item, Link, NextButton, PrevButton, Root} from "$lib/components/ui/pagination/index.js";
+    import {Content, Ellipsis, Item, Link, Root} from "$lib/components/ui/pagination/index.js";
+    import {Button} from "$lib/components/ui/button/index.js";
+    import {ChevronLeft, ChevronRight} from "lucide-svelte";
 
-    let {current, total} = $props();
+    let {current, total, pageSize} = $props();
 
     let formatTotalPage = $state(generatePagination(current, total));
 
     function setPage(page) {
-
-        console.log("PAGE", page, total)
 
         if (page >= 1 && page <= total) {
 
@@ -18,22 +18,22 @@
             formatTotalPage = generatePagination(page, total);
         }
 
-        console.log(current);
-
     }
-
-    console.log(current ===  1, "CURRENT", current, "TOTAL", total)
 
 </script>
 
-<Root>
-<!--<Root count={100} perPage={10}>-->
+<Root count={total} perPage={pageSize}>
     <Content>
         <Item>
-            <PrevButton
-                    onclick={() => setPage(current - 1)}
-                    disabled={current ===  1}
-            />
+            <Button
+                    variant="ghost"
+                    onclick={() => setPage(current-1)}
+                    disabled={current === 1}
+            >
+                <ChevronLeft class="mr-2 size-4"/>
+                Previous
+            </Button>
+
         </Item>
         {#each formatTotalPage as page, i(i)}
             {#if page === "ellips"}
@@ -55,10 +55,22 @@
             {/if}
         {/each}
         <Item>
-            <NextButton
-                    onclick={() => setPage(current + 1)}
+            <Button
+                    variant="ghost"
+                    onclick={() => setPage(current+1)}
                     disabled={current ===  total}
-            />
+            >
+                Next
+                <ChevronRight class="mr-2 size-4"/>
+            </Button>
+            <!--            <Button-->
+            <!--                    variant="outline"-->
+            <!--                    size="icon"-->
+            <!--                    onclick={() => setPage(current + 1)}-->
+            <!--                    disabled={current ===  total}-->
+            <!--            >-->
+            <!--                <ChevronRight/>-->
+            <!--            </Button>-->
         </Item>
     </Content>
 </Root>

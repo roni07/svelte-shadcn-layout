@@ -32,7 +32,6 @@
 
     // Compute total pages
     let totalPages = $state(Math.ceil(invoices.length / pageSize));
-    // const totalPages = $derived(Math.ceil(invoices.length / pageSize));
 
     // Slice data for the current page
     let paginatedData = $state(invoices.slice((currentPage - 1) * pageSize, currentPage * pageSize));
@@ -42,7 +41,6 @@
 
 <div class="h-full flex flex-col">
 
-    <!--    <div class="border border-gray-200 rounded-md">-->
     <Root class="flex-grow border border-gray-200 rounded-md">
         <Header class="sticky top-0 bg-white shadow">
             <Row>
@@ -64,12 +62,12 @@
         {/each}
         </Body>
     </Root>
-    <!--    </div>-->
 
     <div class="mt-auto">
         <TablePagination
                 total={totalPages}
                 current={currentPage}
+                pageSize={pageSize}
         />
     </div>
 
